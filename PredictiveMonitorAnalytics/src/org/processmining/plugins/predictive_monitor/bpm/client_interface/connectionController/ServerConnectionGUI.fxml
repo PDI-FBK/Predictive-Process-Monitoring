@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.processmining.plugins.predictive_monitor.bpm.client_interface.connectionController.ServerConnectionGUIController">
+   <top>
+      <Label alignment="CENTER" prefHeight="64.0" prefWidth="429.0" text="Welcome to Predictive Monitoring" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font></Label> 
+   </top>
+   <center>
+      <GridPane fx:id="mainGrid" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Please tell me the address of the actual server" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label text="IP" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets right="10.0" />
+               </padding></Label>
+            <Label text="Port Number" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></Label>
+            <TextField fx:id="IP0" alignment="CENTER" text="127" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <TextField fx:id="IP1" alignment="CENTER" text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="IP2" alignment="CENTER" text="0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="IP3" alignment="CENTER" text="1" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextField fx:id="portNumber" text="1202" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="testConnection" defaultButton="true" mnemonicParsing="false" text="Connect" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+   </center>
+   <right>
+      <Pane prefHeight="365.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <Pane prefHeight="365.0" prefWidth="14.0" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
