@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.processmining.plugins.predictive_monitor.bpm.client_interface.resultPage.ReportController">
+   <center>
+      <TabPane fx:id="resultsTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="runsSummary" text="Runs Summary">
+               <content>
+                  <TableView fx:id="runConfigs" prefHeight="200.0" prefWidth="200.0">
+                  </TableView>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="0.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="printOnCSV" defaultButton="true" mnemonicParsing="false" text="Export as CSV" />
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="TOP_LEFT" text="Configuration Summary" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TabPane fx:id="configPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            </TabPane>
+         </children>
+      </VBox>
+   </top>
+</BorderPane>
