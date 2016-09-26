@@ -39,6 +39,7 @@ public class ClusterController {
 	private DBScan dbscan = null; 
 	private AgglomerativeClusterer hclusterer = null;
 	private EModelClusterer emclusterer = null;
+	private KMeansPlusPlusClusterer kMeansPlusPlus = null; 
 	
 	private Print print = new Print();
 	
@@ -233,6 +234,32 @@ public class ClusterController {
 		print.thatln("NUMBER OF NOISY STRINGS "+dbscan.countNoisy());
 		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
 
+	}
+	
+	public void computeKMeansPlusPlusClusteringBasedOnFrequencyEncoding (XLog trainingLog, int numClusters, ArrayList<Pattern> clusteringPatterns,PatternType clusteringPatternType){
+		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
+		kMeansPlusPlus = new KMeansPlusPlusClusterer();
+		
+		switch (clusteringPatternType) {
+		case DISCRIMINATIVE:
+		case SEQUENTIAL_WITHOUT_HOLES:
+		case SEQUENTIAL_WITH_HOLES:
+		case DISCR_SEQUENTIAL_WITHOUT_HOLES:
+		case DISCR_SEQUENTIAL_WITH_HOLES:
+			encoder.encodeTracesBasedOnEventAndPatternFrequency(trainingLog, clusteringPatterns);
+			break;
+		case NONE:
+		default:
+			encoder.encodeTraces(trainingLog);
+			break;
+		}
+		Instances encodedTraces = encoder.getEncodedTraces();
+		//System.out.println(encodedTraces.toString());
+		traceMapping = encoder.getTraceMapping();
+		alphabetMap  = encoder.getAlphabetMap();
+		HashMap<Integer, ArrayList<Integer>> clusterMap = kMeansPlusPlus.clusterTraces(encodedTraces, numClusters);
+		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
+		
 	}
 	
 	public void computeNoCluster(XLog trainingLog){
