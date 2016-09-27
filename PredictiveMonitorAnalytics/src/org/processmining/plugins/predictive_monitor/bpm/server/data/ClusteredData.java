@@ -113,6 +113,9 @@ public class ClusteredData extends GenericDataStructure {
 		case KMEANS:
 			clusterController.computeKMeansClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
 			break;
+		case KMEANSPLUSPLUS:
+			clusterController.computeKMeansPlusPlusClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
+			break;
 		case MODEL:
 			switch (clusteringPatternType) {
 			case DISCRIMINATIVE:
@@ -168,6 +171,8 @@ public class ClusteredData extends GenericDataStructure {
 			return clusterController.getEMClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
 		case KMEANS:
 			return clusterController.getKMeansClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
+		case KMEANSPLUSPLUS:
+			return clusterController.getKMeansPlusPlusClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
 		case MODEL:
 			return clusterController.getModelerClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType, clusterTotNumber, useVotingForClustering, clusterMeansFilePath);
 		case DBSCAN:
