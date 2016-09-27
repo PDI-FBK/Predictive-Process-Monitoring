@@ -172,6 +172,7 @@ public class KMeansPlusPlusClusterer {
 		// create the model
 		kMeans = new SimpleKMeans();
 		try {
+			kMeans.setInitializeUsingKMeansPlusPlusMethod(true);
 			kMeans.setNumClusters(numClusters);
 			kMeans.buildClusterer(encodedTraces);
 
