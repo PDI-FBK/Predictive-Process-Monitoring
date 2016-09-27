@@ -143,6 +143,8 @@ public class Unfolder {
 									break;
 								case "KMEANS": clusteringTypeEnum = ClusteringType.KMEANS;
 									break;
+								case "KMEANSPLUSPLUS": clusteringTypeEnum = ClusteringType.KMEANSPLUSPLUS;
+									break;
 								case "AGGLOMERATIVE": clusteringTypeEnum = ClusteringType.AGGLOMERATIVE;
 									break;
 								case "NONE": clusteringTypeEnum = ClusteringType.NONE;
