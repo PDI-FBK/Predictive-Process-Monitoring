@@ -71,6 +71,9 @@ public class Dependencies {
 		add("clusterNumber","clusteringType",ClusteringType.AGGLOMERATIVE);
 		add("useVotingForClustering","clusteringType",ClusteringType.AGGLOMERATIVE);
 		
+		add("clusterNumber","clusteringType",ClusteringType.KMEANSPLUSPLUS);
+		add("useVotingForClustering","clusteringType",ClusteringType.KMEANSPLUSPLUS);
+		
 		//TODO add dbscan e kmeans dependencies...
 	}
 	

@@ -291,6 +291,30 @@ public class ClusterController {
 		return topClusters;
 	}
 	
+	public ArrayList<Integer> getKMeansPlusPlusClusterNumber(XTrace trace, ArrayList<Pattern> patterns, PatternType clusteringPatternType){
+		ArrayList<Integer> topClusters = new ArrayList<Integer>();
+		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
+		Instance encodedTrace = null;
+		switch (clusteringPatternType) {
+		case DISCRIMINATIVE:
+		case SEQUENTIAL_WITHOUT_HOLES:
+		case SEQUENTIAL_WITH_HOLES:
+		case DISCR_SEQUENTIAL_WITHOUT_HOLES:
+		case DISCR_SEQUENTIAL_WITH_HOLES:
+			encodedTrace = encoder.encodeTraceBasedOnEventAndPatternFrequency(trace, patterns, alphabetMap);
+		break; 
+		case NONE:
+		default:
+			encodedTrace = encoder.encodeTrace(trace, alphabetMap);
+		break;
+		}
+		//KMeansClusterer kMeans = new KMeansClusterer();
+		// increasing the cluster Number by 1 because our clusters start from 1
+		int clusterNumber = kMeansPlusPlus.clusterTrace(encodedTrace, xLogClusterMap)+1;
+		topClusters.add(clusterNumber);
+		return topClusters;
+	}
+	
 	public ArrayList<Integer> getModelerClusterNumber(XTrace trace, List<Pattern> patterns, PatternType clusteringPatternType, int numberOfClusters, boolean useVotingForClustering, String clusterMeansFilePath ){
 		ArrayList<Integer> topClusters = new ArrayList<Integer>();
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();

@@ -14,6 +14,7 @@ public class ClusteringType extends Discrete_Values {
 		availableValues.add("KMEANS");
 		availableValues.add("AGGLOMERATIVE");
 		availableValues.add("NONE");
+		availableValues.add("KMEANSPLUSPLUS");
 		//availableValues.add("EM");
 		//availableValues.add("MODEL-BASED");
 		this.setPossibleValues(availableValues);
@@ -34,6 +35,11 @@ public class ClusteringType extends Discrete_Values {
 		list.add("ClusterNumber");
 		list.add("ClusteringPatternType");
 		impliedFields.put("KMEANS",list);
+		
+		list = new ArrayList<String>();
+		list.add("ClusterNumber");
+		list.add("ClusteringPatternType");
+		impliedFields.put("KMEANSPLUSPLUS",list);
 		
 		list = new ArrayList<String>();
 		list.add("DBScanEpsilon");

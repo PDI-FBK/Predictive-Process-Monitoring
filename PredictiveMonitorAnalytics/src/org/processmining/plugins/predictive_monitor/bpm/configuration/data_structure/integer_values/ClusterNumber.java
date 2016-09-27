@@ -20,6 +20,7 @@ public class ClusterNumber extends Integer_Values{
 		dependendingFromFields.add("AGGLOMERATIVE");
 		dependendingFromFields.add("EM");
 		dependendingFromFields.add("MODEL");
+		dependendingFromFields.add("KMEANSPLUSPLUS");
 		this.setDependendingFromFields(dependendingFromFields);
 	}
 }
