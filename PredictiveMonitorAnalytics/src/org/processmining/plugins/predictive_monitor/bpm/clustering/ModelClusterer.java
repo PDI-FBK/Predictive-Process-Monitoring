@@ -8,9 +8,11 @@ import java.util.PriorityQueue;
 
 import org.processmining.plugins.predictive_monitor.bpm.pattern_mining.data_structures.Tuple;
 
+import weka_predictions.core.Instances;
+
 public class ModelClusterer {
 
-	public HashMap<Integer, ArrayList<Integer>> clusterTraces() {
+	public HashMap<Integer, ArrayList<Integer>> clusterTraces(Instances encodedTraces, int numClusters) {
 		// TODO Auto-generated method stub
 		return null;
 	}

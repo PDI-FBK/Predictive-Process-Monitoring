@@ -117,16 +117,7 @@ public class ClusteredData extends GenericDataStructure {
 			clusterController.computeKMeansPlusPlusClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
 			break;
 		case MODEL:
-			switch (clusteringPatternType) {
-			case DISCRIMINATIVE:
-				clusterController.computeModelClusteringBasedOnEventAndPatternFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), modelClusteringFrom, discriminativePatternFilePath, "","","",""); //TODO IMPLEMENT
-				clusteringPatterns = (ArrayList<Pattern>) PatternController.readPatternsFromFile(discriminativePatternFilePath);
-				break;
-			case NONE:
-			default:
-				clusterController.computeModelClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), modelClusteringFrom, clusterTotNumber,"","","","");
-				break;
-			}
+			clusterController.computeModelClusteringBasedOnEventAndPatternFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
 			break;
 		case DBSCAN:
 			clusterController.computeDBScanClustering(labelledData.getTrainingData().getPrefixLog(), epsilon, minPoints);
