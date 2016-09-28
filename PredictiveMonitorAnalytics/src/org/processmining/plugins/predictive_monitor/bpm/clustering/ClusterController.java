@@ -150,47 +150,33 @@ public class ClusterController {
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		modelClusterer = new ModelClusterer();
 		
-		HashMap<Integer, ArrayList<Integer>> clusterMap = null;
-		if (inputFrom.equals(ModelClusteringFrom.R)){
-			encoder.encodeTraces(trainingLog);
-			Instances encodedTraces = encoder.getEncodedTraces();
-			encoder.writeLogFrequencies(encodedTraces, frequencyTracesFilePath);
-			//System.out.println(encodedTraces.toString());
-
-			traceMapping = encoder.getTraceMapping();
-			
-			clusterMap = modelClusterer.clusterTraces();
-		}
-		else {
-			encoder.computeTraceMapping(trainingLog);
-			traceMapping = encoder.getTraceMapping();
-			clusterMap = modelClusterer.clusterTraces();
-		}
+		Instances encodedTraces = encoder.getEncodedTraces();
+		//System.out.println(encodedTraces.toString());
+		traceMapping = encoder.getTraceMapping();
+		alphabetMap  = encoder.getAlphabetMap();
+		HashMap<Integer, ArrayList<Integer>> clusterMap = modelClusterer.clusterTraces(encodedTraces, clusterNumber);
 		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
 		
 	}
 	
-	public void computeModelClusteringBasedOnEventAndPatternFrequencyEncoding (XLog trainingLog, ModelClusteringFrom inputFrom, String patternFilepath, String frequencyTracesFilePath, String RPath, String RScriptPath, String clusteredTracesFilePath){
+	public void computeModelClusteringBasedOnEventAndPatternFrequencyEncoding (XLog trainingLog, int numClusters, ArrayList<Pattern> clusteringPatterns,PatternType clusteringPatternType){
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		modelClusterer = new ModelClusterer();
-		List<Pattern> patterns = PatternController.readPatternsFromFile(patternFilepath);
 		
-		HashMap<Integer, ArrayList<Integer>> clusterMap = null;
-		if (inputFrom.equals(ModelClusteringFrom.R)){
-			encoder.encodeTracesBasedOnEventAndPatternFrequency(trainingLog, patterns);
-			Instances encodedTraces = encoder.getEncodedTraces();
-			encoder.writeLogFrequencies(encodedTraces, frequencyTracesFilePath);
-			//System.out.println(encodedTraces.toString());
-
-			traceMapping = encoder.getTraceMapping();
-			
-			clusterMap = modelClusterer.clusterTraces();
+		switch (clusteringPatternType) {
+		case DISCRIMINATIVE:
+			encoder.encodeTracesBasedOnEventAndPatternFrequency(trainingLog, clusteringPatterns);
+			break;
+		case NONE:
+		default:
+			encoder.encodeTraces(trainingLog);
+			break;
 		}
-		else {
-			encoder.computeTraceMapping(trainingLog);
-			traceMapping = encoder.getTraceMapping();
-			clusterMap = modelClusterer.clusterTraces();
-		}
+		Instances encodedTraces = encoder.getEncodedTraces();
+		//System.out.println(encodedTraces.toString());
+		traceMapping = encoder.getTraceMapping();
+		alphabetMap  = encoder.getAlphabetMap();
+		HashMap<Integer, ArrayList<Integer>> clusterMap = modelClusterer.clusterTraces(encodedTraces, numClusters);
 		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
 		
 	}
