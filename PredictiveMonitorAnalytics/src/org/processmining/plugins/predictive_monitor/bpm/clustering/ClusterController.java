@@ -40,6 +40,7 @@ public class ClusterController {
 	private AgglomerativeClusterer hclusterer = null;
 	private EModelClusterer emclusterer = null;
 	private KMeansPlusPlusClusterer kMeansPlusPlus = null; 
+	private ModelClusterer modelClusterer = null; 
 	
 	private Print print = new Print();
 	
@@ -147,7 +148,7 @@ public class ClusterController {
 	
 	public void computeModelClusteringBasedOnFrequencyEncoding (XLog trainingLog, ModelClusteringFrom inputFrom, int clusterNumber, String frequencyTracesFilePath, String RPath, String RScriptPath, String clusteredTracesFilePath){
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
-		ModelClusterer modelClusterer= new ModelClusterer();
+		modelClusterer = new ModelClusterer();
 		
 		HashMap<Integer, ArrayList<Integer>> clusterMap = null;
 		if (inputFrom.equals(ModelClusteringFrom.R)){
@@ -158,12 +159,12 @@ public class ClusterController {
 
 			traceMapping = encoder.getTraceMapping();
 			
-			clusterMap = modelClusterer.clusterTraces(RPath, RScriptPath, frequencyTracesFilePath, clusteredTracesFilePath);
+			clusterMap = modelClusterer.clusterTraces();
 		}
 		else {
 			encoder.computeTraceMapping(trainingLog);
 			traceMapping = encoder.getTraceMapping();
-			clusterMap = modelClusterer.clusterTraces(clusteredTracesFilePath + clusterNumber + ".txt");
+			clusterMap = modelClusterer.clusterTraces();
 		}
 		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
 		
@@ -171,7 +172,7 @@ public class ClusterController {
 	
 	public void computeModelClusteringBasedOnEventAndPatternFrequencyEncoding (XLog trainingLog, ModelClusteringFrom inputFrom, String patternFilepath, String frequencyTracesFilePath, String RPath, String RScriptPath, String clusteredTracesFilePath){
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
-		ModelClusterer modelClusterer= new ModelClusterer();
+		modelClusterer = new ModelClusterer();
 		List<Pattern> patterns = PatternController.readPatternsFromFile(patternFilepath);
 		
 		HashMap<Integer, ArrayList<Integer>> clusterMap = null;
@@ -183,12 +184,12 @@ public class ClusterController {
 
 			traceMapping = encoder.getTraceMapping();
 			
-			clusterMap = modelClusterer.clusterTraces(RPath, RScriptPath, frequencyTracesFilePath, clusteredTracesFilePath);
+			clusterMap = modelClusterer.clusterTraces();
 		}
 		else {
 			encoder.computeTraceMapping(trainingLog);
 			traceMapping = encoder.getTraceMapping();
-			clusterMap = modelClusterer.clusterTraces(clusteredTracesFilePath);
+			clusterMap = modelClusterer.clusterTraces();
 		}
 		xLogClusterMap = Decoder.computeXLogClusterMap(clusterMap, traceMapping);
 		
@@ -319,8 +320,7 @@ public class ClusterController {
 		ArrayList<Integer> topClusters = new ArrayList<Integer>();
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
-		ModelClusterer modelClusterer = new ModelClusterer(clusterMeansFilePath + numberOfClusters + ".txt");
-		
+
 		if (useVotingForClustering) {
 			topClusters = (ArrayList<Integer>) getModelerTopClusters(trace, patterns, clusterMeansFilePath,numberOfClusters);
 		} else {
@@ -337,8 +337,8 @@ public class ClusterController {
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
 		Map<String, Double> freqs = encoder.encodeTraceBasedOnEventAndPatternFrequency(trace, patterns);
-		ModelClusterer modelClusterer = new ModelClusterer(clusterMeansFilePath);
-		int clusterNumber = modelClusterer.clusterTrace(encodedTrace, freqs);
+		ModelClusterer modelClusterer = new ModelClusterer();
+		int clusterNumber = modelClusterer.clusterTrace(encodedTrace);
 		return clusterNumber;
 	}
 	
@@ -346,7 +346,7 @@ public class ClusterController {
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
 		Map<String, Double> freqs = encoder.encodeTraceBasedOnEventAndPatternFrequency(trace, patterns);
-		ModelClusterer modelClusterer = new ModelClusterer(clusterMeansFilePath);
+		ModelClusterer modelClusterer = new ModelClusterer();
 		List<Integer> topClusters = modelClusterer.getTopClusters(encodedTrace, voters, freqs);
 		return topClusters;
 	}
