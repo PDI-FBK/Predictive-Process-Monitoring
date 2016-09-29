@@ -150,6 +150,8 @@ public class ClusterController {
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
 		modelClusterer = new ModelClusterer();
 		
+		encoder.encodeTraces(trainingLog);
+		
 		Instances encodedTraces = encoder.getEncodedTraces();
 		//System.out.println(encodedTraces.toString());
 		traceMapping = encoder.getTraceMapping();
