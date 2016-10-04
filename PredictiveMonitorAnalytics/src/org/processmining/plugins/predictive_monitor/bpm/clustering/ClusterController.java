@@ -307,40 +307,12 @@ public class ClusterController {
 	public ArrayList<Integer> getModelerClusterNumber(XTrace trace, List<Pattern> patterns, PatternType clusteringPatternType, int numberOfClusters, boolean useVotingForClustering, String clusterMeansFilePath ){
 		ArrayList<Integer> topClusters = new ArrayList<Integer>();
 		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
-		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
+		Instance encodedTrace = encoder.encodeTrace(trace, alphabetMap);
 
-		if (useVotingForClustering) {
-			topClusters = (ArrayList<Integer>) getModelerTopClusters(trace, patterns, clusterMeansFilePath,numberOfClusters);
-		} else {
-			int clusterNumber = -1;
-			clusterNumber = modelClusterer.clusterTrace(encodedTrace);
-			topClusters.add(clusterNumber);
-		}
-		//int clusterNumber = modelClusterer.clusterTrace(encodedTrace);
-		//topClusters.add(clusterNumber);
-		return topClusters;
-	}
-	
-	public int getModelerClusterNumberEventAndPatternFrequency(XTrace trace, List<Pattern> patterns, String clusterMeansFilePath){
-		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
-		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
-		Map<String, Double> freqs = encoder.encodeTraceBasedOnEventAndPatternFrequency(trace, patterns);
-		ModelClusterer modelClusterer = new ModelClusterer();
 		int clusterNumber = modelClusterer.clusterTrace(encodedTrace);
-		return clusterNumber;
-	}
-	
-	public List<Integer> getModelerTopClusters(XTrace trace, List<Pattern> patterns, String clusterMeansFilePath, int voters){
-		FrequencyBasedEncoder encoder = new FrequencyBasedEncoder();
-		String[] encodedTrace = encoder.encodeTraceAsArray(trace);
-		Map<String, Double> freqs = encoder.encodeTraceBasedOnEventAndPatternFrequency(trace, patterns);
-		ModelClusterer modelClusterer = new ModelClusterer();
-		List<Integer> topClusters = modelClusterer.getTopClusters(encodedTrace, voters, freqs);
+		topClusters.add(clusterNumber);
 		return topClusters;
 	}
-
-	
-	
 	
 	public ArrayList<Integer> getAgglomerativeClusterNumber(XTrace trace, ArrayList<Pattern> patterns, PatternType clusteringPatternType, HierarchicalDistanceMetrics hierarchicalDistanceMetrics){
 		ArrayList<Integer> topClusters = new ArrayList<Integer>();
