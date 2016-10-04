@@ -10,8 +10,11 @@ import org.processmining.plugins.predictive_monitor.bpm.encoding.FrequencyBasedE
 import org.processmining.plugins.predictive_monitor.bpm.utility.XLogReader;
 
 import weka_predictions.classifiers.rules.DecisionTableHashKey;
+import weka_predictions.core.Instance;
 import weka_predictions.core.Instances;
 import weka_predictions.core.matrix.Matrix;
+import weka_predictions.filters.Filter;
+import weka_predictions.filters.unsupervised.attribute.ReplaceMissingValues;
 
 public class ModelBased {
 	public double[][] mu;
@@ -64,6 +67,10 @@ public class ModelBased {
 		clusterCentroids = new Instances(instances, numClusters);
 		int[] clusterAssignments = new int[instances.numInstances()];
 		
+		ReplaceMissingValues replaceMissingFilter = new ReplaceMissingValues();
+	    replaceMissingFilter.setInputFormat(instances);
+	    instances = Filter.useFilter(instances, replaceMissingFilter);
+	    
 		/*initialization of the centroids */
 		
 		Random randomO = new Random();
@@ -92,8 +99,12 @@ public class ModelBased {
 		//populate dataMatrix
 		for(int i = 0; i < instances.size(); i++){
 			for(int j = 0; j < instances.numAttributes(); j++){
-				System.out.println("index i = "+ i + ", j = "+j);
-				this.dataMatrix[i][j] = instances.instance(i).value(j);
+				if(Double.isNaN(instances.instance(i).value(j))){
+					this.dataMatrix[i][j] = -1.0;
+				}
+				else{
+					this.dataMatrix[i][j] = instances.instance(i).value(j);
+				}
 			}
 		}
 		
@@ -125,7 +136,7 @@ public class ModelBased {
 		double[][] p = generateMatrix(dataLength, muLength);
 		int gc = 1;
 
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 3; i++){
 			// Step 1: Find the closest centers
 			System.out.println("Step 1: Find the closest centers");
 			p = generateMatrix(dataLength, muLength);
@@ -179,17 +190,14 @@ public class ModelBased {
 			}
 			
 			// check if each group is represented
+			int z = 0; 
 			for(int c : groupCount){
-				System.out.println("group count = "+c);
-				if(c == 0) {
-					gc = 0;
-					break;
-				}
+				System.out.println("group count of "+ (z++) +" = "+c);
 			}
-			if(gc == 0){
-				System.out.println("breaking iteration = no clusters are found");
-				break;
-			}
+//			if(gc == 0){
+//				System.out.println("breaking iteration = no clusters are found");
+//				break;
+//			}
 			
 			System.out.println("Step 2: Recalibrate parameters");
 			// Step 2: Recalibrate parameters
@@ -220,13 +228,20 @@ public class ModelBased {
 			for(int j = 0; j < muLength; j++){
 				if(groupCount[j] > 0){
 					//create matrix for data per column
-					double[][] dat = new double[groupCount[j]][data[0].length];
+					int limit = groupCount[j];
+					double[][] dat = new double[limit][data[0].length];
 					int counter = 0;
-					for(int k = 0; k < dataLength; k++){
+					System.out.println("limit = "+ limit);
+					for(int k = 0; k < dataLength && counter < limit; k++){
 						if(j == maxValues[k]){
 							for(int n = 0; n < mu[j].length && n < data[k].length; n++){
+//								System.out.println("value at A: "+dat[counter][n]);
+//								System.out.println("value at B: "+data[k][n]);
+//								System.out.println("value at C: "+mu[j][n]);
+//								
 								dat[counter][n] = data[k][n] - mu[j][n];
 							}
+							System.out.println("counter = "+ counter);
 							counter++;
 						}
 					}
@@ -258,10 +273,6 @@ public class ModelBased {
 		return;
 	}
 	
-	public void calculateDistance(){
-		
-	}
-	
 	private static double[][] generateMU(int x, int y, Instances instances){
 
 		double[][] matrix = new double[x][y];
@@ -271,7 +282,13 @@ public class ModelBased {
 			double rangeMax = instances.size();
 			double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 			for(int j = 0; j < y; j++){
-				matrix[i][j] = instances.instance((int) randomValue).value(j);
+				double valueToStore = instances.instance((int) randomValue).value(j);
+				if(Double.isNaN(valueToStore)){
+					matrix[i][j] = -1.0; //assign negative 1 to Nan
+				}
+				else{
+					matrix[i][j] = valueToStore;
+				}	
 			}
 		}
 		return matrix;
@@ -300,6 +317,64 @@ public class ModelBased {
 			}
 		}
 		return matrix;
+	}
+
+	public int clusterInstance(Instance encodedTrace) {
+
+		double[] trace = new double[encodedTrace.numAttributes()];
+		for(int j = 0; j < encodedTrace.numAttributes(); j++){
+			if(Double.isNaN(encodedTrace.value(j))){
+				trace[j] = -1.0;
+			}
+			else{
+				trace[j] = encodedTrace.value(j);
+			}
+		}
+		
+		double[] scores = new double[this.mu.length]; 
+
+		//calculate the scores
+		for(int j = 0; j < this.mu.length; j++){
+			
+			double[][] sigmaTemp = sigma.get(j); 
+			
+			Matrix m = new Matrix(sigmaTemp);
+			double determinant =  m.det();
+			if(determinant == 0){
+				m = new Matrix(generateDiag(this.mu.length));
+				determinant =  m.det();
+				System.out.println("determinant is 0");
+			}
+			
+			int col =  this.mu[j].length;
+			double[][] values = new double[col][col];
+			for(int n = 0; n < this.mu[j].length && n < trace.length; n++){
+				values[0][n] = trace[n]-this.mu[j][n];
+			}
+			
+
+			double val = 1.0/(2.0 * Math.PI * determinant);
+			Matrix valMat = new Matrix(values);
+			Matrix matrixMuxResult1 = valMat.times(m.inverse());			
+			double[][] matrixMuxResult = matrixMuxResult1.times(valMat.transpose()).getArray();
+
+			double matrixMulValue = matrixMuxResult[0][0];
+			
+			double exponentValue = Math.exp((-1.0/2.0)*matrixMulValue);
+			
+			scores[j] = val*exponentValue;
+		}
+		
+		// get which index with the maximum value
+		int maxIndex = 0;
+		double maxPoint = 0;
+		for(int j = 0; j < this.mu.length; j++){
+			if(maxPoint < scores[j]){
+				maxPoint = scores[j];
+				maxIndex = j;
+			}
+		}
+		return maxIndex;
 	}
 	
 }
