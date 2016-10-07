@@ -65,7 +65,7 @@ public class SequenceClusterManager {
 
 	
 	public int computeTraceCluster(XTrace trace){
-		ModelClusterer clusterer = new ModelClusterer();
+		ModelClusterer2 clusterer = new ModelClusterer2();
 		String[] traceString = new String[trace.size()];
 		int i = 0;
 		for (XEvent event : trace) {

@@ -99,7 +99,8 @@ public class ModelBased {
 		//populate dataMatrix
 		for(int i = 0; i < instances.size(); i++){
 			for(int j = 0; j < instances.numAttributes(); j++){
-				if(Double.isNaN(instances.instance(i).value(j))){
+				//convert 0 to -1 to prevent determinant of 0 value
+				if(instances.instance(i).value(j) == 0){
 					this.dataMatrix[i][j] = -1.0;
 				}
 				else{
@@ -136,7 +137,7 @@ public class ModelBased {
 		double[][] p = generateMatrix(dataLength, muLength);
 		int gc = 1;
 
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 10; i++){
 			// Step 1: Find the closest centers
 			System.out.println("Step 1: Find the closest centers");
 			p = generateMatrix(dataLength, muLength);
@@ -251,7 +252,7 @@ public class ModelBased {
 					double[][] matmul = transposed.times(dataMat2).getArray(); 
 					for(int k = 0; k < matmul.length; k++){
 						for(int n = 0; n < matmul[0].length; n++){
-							if(j == checkRandom){
+							if(j == checkRandom || groupCount[j] == 0){
 								if(k == n) matmul[k][n] = 1;
 								else matmul[k][n] = 0;
 							}
@@ -276,11 +277,22 @@ public class ModelBased {
 	private static double[][] generateMU(int x, int y, Instances instances){
 
 		double[][] matrix = new double[x][y];
+		List<Integer> indexes = new ArrayList<Integer>();
 		for(int i = 0; i < x; i++){
 			Random r = new Random();
 			double rangeMin = 0;
 			double rangeMax = instances.size();
 			double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+			System.out.println("Random Value Numbers: " + ((int) randomValue));
+			if(indexes.contains((int) randomValue)){
+				//re-iterate again to get new index
+				i--;
+				continue;
+			}
+			else{
+				indexes.add((int) randomValue);
+			}
+			indexes.add((int) randomValue);
 			for(int j = 0; j < y; j++){
 				double valueToStore = instances.instance((int) randomValue).value(j);
 				if(Double.isNaN(valueToStore)){
@@ -323,7 +335,7 @@ public class ModelBased {
 
 		double[] trace = new double[encodedTrace.numAttributes()];
 		for(int j = 0; j < encodedTrace.numAttributes(); j++){
-			if(Double.isNaN(encodedTrace.value(j))){
+			if(encodedTrace.value(j) == 0){
 				trace[j] = -1.0;
 			}
 			else{
@@ -341,7 +353,7 @@ public class ModelBased {
 			Matrix m = new Matrix(sigmaTemp);
 			double determinant =  m.det();
 			if(determinant == 0){
-				m = new Matrix(generateDiag(this.mu.length));
+				m = new Matrix(generateDiag(this.mu[0].length));
 				determinant =  m.det();
 				System.out.println("determinant is 0");
 			}
@@ -351,7 +363,6 @@ public class ModelBased {
 			for(int n = 0; n < this.mu[j].length && n < trace.length; n++){
 				values[0][n] = trace[n]-this.mu[j][n];
 			}
-			
 
 			double val = 1.0/(2.0 * Math.PI * determinant);
 			Matrix valMat = new Matrix(values);
