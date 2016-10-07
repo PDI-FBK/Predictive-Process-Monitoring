@@ -25,36 +25,7 @@ public class ModelBased {
 
 	private int numClusters = 2;
 	private Instances clusterCentroids;
-	private int maxIterations = 100;
-	private int iterations = 0;
-	
-	public static void main(String[] args){
-		System.out.println("here in model based");
-		FrequencyBasedEncoder fbEncoder = new FrequencyBasedEncoder();
-		String inputLogFilePath = "./input/old/BPI2011_20.xes";
-		XLog trainingLog = null;
-		try {
-			trainingLog = XLogReader.openLog(inputLogFilePath);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		fbEncoder.encodeTraces(trainingLog);
-		traceInstances = fbEncoder.getEncodedTraces();
-		ModelBased mb = new ModelBased();
-		
-		try {
-			mb.setNumClusters(20);
-			mb.buildClusterer(traceInstances);
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println("done encoding");
-	}
+	private int maxIterations = 10;
 	
 	public void setNumClusters(int n) throws Exception {
 		if (n <= 0) {
@@ -111,16 +82,15 @@ public class ModelBased {
 		
 		this.mu = generateMU(numClusters, instances.numAttributes(), instances);
 		
-		System.out.println("creating mu ");
 		kMeansPlusPlus();
-		System.out.println("ending of kmeans++sigma");
+		System.out.println("ending of kmeans++sigma - model based clustering");
 	}
 	
 	public void kMeansPlusPlus(){
 		double[][] data = this.dataMatrix;
 		double[][] mu = this.mu;
 		
-		System.out.println("Start of kmeans++");
+		System.out.println("Start of kmeans++ model based clustering");
 
 //		Matrix2 mat = new Matrix2();
 		int muLength = mu.length;
@@ -137,7 +107,7 @@ public class ModelBased {
 		double[][] p = generateMatrix(dataLength, muLength);
 		int gc = 1;
 
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < this.maxIterations; i++){
 			// Step 1: Find the closest centers
 			System.out.println("Step 1: Find the closest centers");
 			p = generateMatrix(dataLength, muLength);
@@ -151,7 +121,7 @@ public class ModelBased {
 				if(determinant == 0){
 					m = new Matrix(generateDiag(diagLength));
 					determinant =  m.det();
-					System.out.println("determinant is 0");
+//					System.out.println("determinant is 0");
 				}
 				
 				for(int k = 0; k < dataLength; k++){
@@ -232,17 +202,11 @@ public class ModelBased {
 					int limit = groupCount[j];
 					double[][] dat = new double[limit][data[0].length];
 					int counter = 0;
-					System.out.println("limit = "+ limit);
 					for(int k = 0; k < dataLength && counter < limit; k++){
 						if(j == maxValues[k]){
 							for(int n = 0; n < mu[j].length && n < data[k].length; n++){
-//								System.out.println("value at A: "+dat[counter][n]);
-//								System.out.println("value at B: "+data[k][n]);
-//								System.out.println("value at C: "+mu[j][n]);
-//								
 								dat[counter][n] = data[k][n] - mu[j][n];
 							}
-							System.out.println("counter = "+ counter);
 							counter++;
 						}
 					}
@@ -265,7 +229,7 @@ public class ModelBased {
 				}
 			}
 			
-			System.out.println("iteration #"+i);
+//			System.out.println("iteration #"+i);
 		}
 		
 		this.mu = mu;
@@ -283,7 +247,6 @@ public class ModelBased {
 			double rangeMin = 0;
 			double rangeMax = instances.size();
 			double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-			System.out.println("Random Value Numbers: " + ((int) randomValue));
 			if(indexes.contains((int) randomValue)){
 				//re-iterate again to get new index
 				i--;
@@ -355,7 +318,7 @@ public class ModelBased {
 			if(determinant == 0){
 				m = new Matrix(generateDiag(this.mu[0].length));
 				determinant =  m.det();
-				System.out.println("determinant is 0");
+//				System.out.println("determinant is 0");
 			}
 			
 			int col =  this.mu[j].length;
