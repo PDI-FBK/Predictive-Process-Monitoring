@@ -27,19 +27,21 @@ public class ModelClusterer {
 			mbclusterer.setNumClusters(numClusters);
 			mbclusterer.buildClusterer(encodedTraces);
 
-			ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-			for (int i = 0; i<encodedTraces.numAttributes(); i++) {
-				attributes.add(encodedTraces.attribute(i));
-			}
-
-			for (int i = 0; i < encodedTraces.numInstances(); i++) {
-				int clusterNumber = mbclusterer.clusterInstance(encodedTraces.instance(i));
-				ArrayList<Integer> instanceIndexes = instanceMap.get(clusterNumber);
+			for (int i = 0; i < numClusters; i++) {
+				ArrayList<Integer> instanceIndexes = instanceMap.get(i);
 				if (instanceIndexes == null){
 					instanceIndexes = new ArrayList<Integer>();
 				}
-				instanceIndexes.add(i);
-				instanceMap.put(new Integer(clusterNumber), instanceIndexes);
+				for (int j = 0; j < mbclusterer.dataCluster.length; j++) {
+					int clusterNumber = mbclusterer.dataCluster[j];
+					if(clusterNumber == i){
+						instanceIndexes.add(j);
+					}
+				}
+				//remove empty clusters from choices for classifiers
+				if(instanceIndexes.size() > 0){
+					instanceMap.put(new Integer(i), instanceIndexes);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,4 +58,5 @@ public class ModelClusterer {
 		}
 		return clusterNumber;
 	}
+
 }
