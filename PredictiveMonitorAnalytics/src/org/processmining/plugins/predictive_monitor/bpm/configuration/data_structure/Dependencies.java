@@ -39,10 +39,10 @@ public class Dependencies {
 		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
 		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
 		
-		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringMaximumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringMaximumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
 		
 		
 		add("confidenceAndSupportVotingStrategy","useVotingForClustering", new Boolean(true));

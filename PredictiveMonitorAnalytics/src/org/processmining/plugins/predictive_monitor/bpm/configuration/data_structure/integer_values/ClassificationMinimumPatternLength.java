@@ -17,7 +17,7 @@ public class ClassificationMinimumPatternLength extends Integer_Values{
 		super.setTooltip("Minimum length of a trend sequence to define it pattern");
 		
 		Set<String> dependendingFromFields = new TreeSet<String>();
-		dependendingFromFields.add("DISCR_SEQUENTIAL_WITH_HOLES");
+//		dependendingFromFields.add("DISCR_SEQUENTIAL_WITH_HOLES");
 		dependendingFromFields.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
 		this.setDependendingFromFields(dependendingFromFields);
 	}
