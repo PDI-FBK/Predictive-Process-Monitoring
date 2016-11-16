@@ -92,9 +92,10 @@ public class ClusteredData extends GenericDataStructure {
 				clusteringPatterns = PatternController.generateSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, clusterTotNumber);
 				break;
 			case DISCR_SEQUENTIAL_WITHOUT_HOLES:
+				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithoutHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
 				break;
 			case DISCR_SEQUENTIAL_WITH_HOLES:
-				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), patternMinimumSupport, minimumPatternLength, maximumPatternLength, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
+				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, clusterTotNumber, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
 				break;
 			default:
 				break;
