@@ -12,8 +12,8 @@ public class ClusteringPatternType extends Discrete_Values{
 		super();
 		Set <String> availableValues = new TreeSet<String>();
 		availableValues.add("DISCRIMINATIVE");
-		availableValues.add("SEQUENTIAL_WITH_HOLES");
-		availableValues.add("SEQUENTIAL_WITHOUT_HOLES");
+//		availableValues.add("SEQUENTIAL_WITH_HOLES");
+//		availableValues.add("SEQUENTIAL_WITHOUT_HOLES");
 //		availableValues.add("DISCR_SEQUENTIAL_WITH_HOLES");
 //		availableValues.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
 		availableValues.add("NONE");
