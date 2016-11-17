@@ -19,7 +19,7 @@ public class ClassificationMaximumPatternLength extends Integer_Values {
 		
 		Set<String> dependendingFromFields = new TreeSet<String>();
 //		dependendingFromFields.add("DISCR_SEQUENTIAL_WITH_HOLES");
-		dependendingFromFields.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
+//		dependendingFromFields.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
 		this.setDependendingFromFields(dependendingFromFields);
 	}
 }
