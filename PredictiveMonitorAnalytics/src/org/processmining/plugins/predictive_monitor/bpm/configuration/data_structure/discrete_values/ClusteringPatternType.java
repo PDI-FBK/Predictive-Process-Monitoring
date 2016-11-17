@@ -15,7 +15,7 @@ public class ClusteringPatternType extends Discrete_Values{
 		availableValues.add("SEQUENTIAL_WITH_HOLES");
 		availableValues.add("SEQUENTIAL_WITHOUT_HOLES");
 //		availableValues.add("DISCR_SEQUENTIAL_WITH_HOLES");
-		availableValues.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
+//		availableValues.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
 		availableValues.add("NONE");
 		this.setPossibleValues(availableValues);
 		
@@ -27,11 +27,11 @@ public class ClusteringPatternType extends Discrete_Values{
 		list.add("clusteringSameLengthDiscriminativePatternCount");
 		impliedFields.put("DISCRIMINATIVE",list);
 		
-		list = new ArrayList<String>();
-		list.add("clusteringPatternMinimumSupport");
-		list.add("clusteringMinimumPatternLength");
-		list.add("clusteringDiscriminativeMinimumSupport");
-		impliedFields.put("DISCR_SEQUENTIAL_WITHOUT_HOLES",list);
+//		list = new ArrayList<String>();
+//		list.add("clusteringPatternMinimumSupport");
+//		list.add("clusteringMinimumPatternLength");
+//		list.add("clusteringDiscriminativeMinimumSupport");
+//		impliedFields.put("DISCR_SEQUENTIAL_WITHOUT_HOLES",list);
 
 //		list = new ArrayList<String>();
 //		list.add("classificationPatternMinimumSupport");
