@@ -9,7 +9,7 @@ public class ConfidenceAndSupportVotingStrategy extends Discrete_Values{
 		super();
 		Set <String> availableValues = new TreeSet<String>();
 		availableValues.add("MAX");
-		availableValues.add("MIN");
+//		availableValues.add("MIN");
 		this.setPossibleValues(availableValues);
 		
 		super.addDefaultValue("MAX");

@@ -22,8 +22,8 @@ public class ClusteringMinimumPatternLength extends Integer_Values{
 				+ "the algorithm a trend has to be to result acceptable");
 		
 		Set <String> dependingFrom = new TreeSet<>();
-		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
-		dependingFrom.add("DISCR_SEQUENTIAL_WITH_HOLES");
+//		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
+//		dependingFrom.add("DISCR_SEQUENTIAL_WITH_HOLES");
 		super.setDependendingFromFields(dependingFrom);
 	}
 }

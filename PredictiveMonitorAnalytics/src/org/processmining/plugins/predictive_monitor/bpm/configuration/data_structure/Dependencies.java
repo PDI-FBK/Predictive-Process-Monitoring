@@ -27,22 +27,22 @@ public class Dependencies {
 		add("clusteringDiscriminativePatternCount","clusteringPatternType", PatternType.DISCRIMINATIVE);
 		add("clusteringSameLengthDiscriminativePatternCount","clusteringPatternType", PatternType.DISCRIMINATIVE);
 		
-		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
-		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
-		add("clusteringDiscriminativeMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
+//		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
+//		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
+//		add("clusteringDiscriminativeMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITH_HOLES);
 		
-		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
-		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
-		add("clusteringDiscriminativeMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringDiscriminativeMinimumSupport","clusteringPatternType", PatternType.SEQUENTIAL_WITHOUT_HOLES);
 		
-		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
-		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
-		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
+//		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITHOUT_HOLES);
 		
-		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringMaximumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
-		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringPatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringMinimumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringMaximumPatternLength","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
+//		add("clusteringDiscriminativePatternMinimumSupport","clusteringPatternType", PatternType.DISCR_SEQUENTIAL_WITH_HOLES);
 		
 		
 		add("confidenceAndSupportVotingStrategy","useVotingForClustering", new Boolean(true));
@@ -70,6 +70,11 @@ public class Dependencies {
 		add("useVotingForClustering","clusteringType",ClusteringType.KMEANS);
 		add("clusterNumber","clusteringType",ClusteringType.AGGLOMERATIVE);
 		add("useVotingForClustering","clusteringType",ClusteringType.AGGLOMERATIVE);
+		
+//		add("clusterNumber","clusteringType",ClusteringType.KMEANSPLUSPLUS);
+//		add("useVotingForClustering","clusteringType",ClusteringType.KMEANSPLUSPLUS);
+		
+		add("clusterNumber","clusteringType",ClusteringType.MODEL);
 		
 		//TODO add dbscan e kmeans dependencies...
 	}

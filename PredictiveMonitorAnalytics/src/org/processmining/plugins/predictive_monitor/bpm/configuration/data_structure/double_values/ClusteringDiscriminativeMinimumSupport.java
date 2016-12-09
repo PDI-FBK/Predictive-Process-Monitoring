@@ -15,7 +15,7 @@ public class ClusteringDiscriminativeMinimumSupport extends Double_Values{
 				+ " classified as pertaining to a set instead of another");
 		
 		Set <String> dependingFrom = new TreeSet<>();
-		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
+//		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
 		super.setDependendingFromFields(dependingFrom);
 	}
 
