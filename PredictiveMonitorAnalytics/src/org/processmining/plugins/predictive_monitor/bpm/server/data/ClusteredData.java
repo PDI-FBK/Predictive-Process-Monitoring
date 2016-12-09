@@ -89,12 +89,13 @@ public class ClusteredData extends GenericDataStructure {
 				clusteringPatterns = PatternController.generateSequentialPatternsWithoutHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber);
 				break;
 			case SEQUENTIAL_WITH_HOLES:
-				clusteringPatterns = PatternController.generateSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, clusterTotNumber);
+				clusteringPatterns = PatternController.generateSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, minimumPatternLength, maximumPatternLength);
 				break;
 			case DISCR_SEQUENTIAL_WITHOUT_HOLES:
+				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithoutHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
 				break;
 			case DISCR_SEQUENTIAL_WITH_HOLES:
-				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), patternMinimumSupport, minimumPatternLength, maximumPatternLength, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
+				clusteringPatterns = PatternController.generateDiscriminativeSequentialPatternsWithHoles(labelledData.getTrainingData().getLog(), clusterTotNumber, clusterTotNumber, clusterTotNumber, labelledData.getClassifier().getClassification(), discriminativeMinimumSupport);
 				break;
 			default:
 				break;
@@ -113,17 +114,11 @@ public class ClusteredData extends GenericDataStructure {
 		case KMEANS:
 			clusterController.computeKMeansClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
 			break;
+		case KMEANSPLUSPLUS:
+			clusterController.computeKMeansPlusPlusClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
+			break;
 		case MODEL:
-			switch (clusteringPatternType) {
-			case DISCRIMINATIVE:
-				clusterController.computeModelClusteringBasedOnEventAndPatternFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), modelClusteringFrom, discriminativePatternFilePath, "","","",""); //TODO IMPLEMENT
-				clusteringPatterns = (ArrayList<Pattern>) PatternController.readPatternsFromFile(discriminativePatternFilePath);
-				break;
-			case NONE:
-			default:
-				clusterController.computeModelClusteringBasedOnFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), modelClusteringFrom, clusterTotNumber,"","","","");
-				break;
-			}
+			clusterController.computeModelClusteringBasedOnEventAndPatternFrequencyEncoding(labelledData.getTrainingData().getPrefixLog(), clusterTotNumber, clusteringPatterns, clusteringPatternType);
 			break;
 		case DBSCAN:
 			clusterController.computeDBScanClustering(labelledData.getTrainingData().getPrefixLog(), epsilon, minPoints);
@@ -168,6 +163,8 @@ public class ClusteredData extends GenericDataStructure {
 			return clusterController.getEMClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
 		case KMEANS:
 			return clusterController.getKMeansClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
+		case KMEANSPLUSPLUS:
+			return clusterController.getKMeansPlusPlusClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType);
 		case MODEL:
 			return clusterController.getModelerClusterNumber(lastTrace, clusteringPatterns, clusteringPatternType, clusterTotNumber, useVotingForClustering, clusterMeansFilePath);
 		case DBSCAN:

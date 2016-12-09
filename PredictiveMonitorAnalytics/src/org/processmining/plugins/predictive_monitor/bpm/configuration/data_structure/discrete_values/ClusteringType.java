@@ -14,8 +14,9 @@ public class ClusteringType extends Discrete_Values {
 		availableValues.add("KMEANS");
 		availableValues.add("AGGLOMERATIVE");
 		availableValues.add("NONE");
+//		availableValues.add("KMEANSPLUSPLUS");
 		//availableValues.add("EM");
-		//availableValues.add("MODEL-BASED");
+		availableValues.add("MODEL-BASED");
 		this.setPossibleValues(availableValues);
 		
 		Map <String, List<String>> impliedFields = new HashMap<String, List<String>>();
@@ -35,17 +36,21 @@ public class ClusteringType extends Discrete_Values {
 		list.add("ClusteringPatternType");
 		impliedFields.put("KMEANS",list);
 		
+//		list = new ArrayList<String>();
+//		list.add("ClusterNumber");
+//		list.add("ClusteringPatternType");
+//		impliedFields.put("KMEANSPLUSPLUS",list);
+
+		list = new ArrayList<String>();
+		list.add("ClusterNumber");
+		impliedFields.put("MODEL-BASED",list);
+		
 		list = new ArrayList<String>();
 		list.add("DBScanEpsilon");
 		list.add("DBScanMinPoints");
 		list.add("ClusteringPatternType");
 		impliedFields.put("DBSCAN",list);
-		
-		/*
-		list = new ArrayList<String>();
-		list.add("ClusterNumber");
-		impliedFields.put("MODEL-BASED",list);
-		*/
+
 		this.setImpliedFields(impliedFields);
 		
 		super.addDefaultValue("DBSCAN");

@@ -17,7 +17,7 @@ public class ClusteringMaximumPatternLength extends Integer_Values {
 		super.setTooltip("This parameter let's one choose the maximum dimension of a single pattern");
 		
 		Set <String> dependingFrom = new TreeSet<>();
-		dependingFrom.add("SEQUENTIAL_WITH_HOLES");
+//		dependingFrom.add("SEQUENTIAL_WITH_HOLES");
 		super.setDependendingFromFields(dependingFrom);
 	}
 }
