@@ -19,8 +19,8 @@ public class ClassificationPatternMinimumSupport extends Double_Values{
 				+ " what trend means");
 		
 		Set <String> dependingFrom = new TreeSet<>();
-		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
-		dependingFrom.add("DISCR_SEQUENTIAL_WITH_HOLES");
+//		dependingFrom.add("DISCR_SEQUENTIAL_WITHOUT_HOLES");
+//		dependingFrom.add("DISCR_SEQUENTIAL_WITH_HOLES");
 		super.setDependendingFromFields(dependingFrom);
 	}
 

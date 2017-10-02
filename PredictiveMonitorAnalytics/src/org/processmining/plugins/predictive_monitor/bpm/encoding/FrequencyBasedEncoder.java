@@ -71,9 +71,15 @@ public class FrequencyBasedEncoder extends Encoder {
 		encodedTraces = new Instances("DATA", attributes,
 				logTracesToEncode.size());
 
+		
+		
 		int i = 0;
 		for (XTrace trace : logTracesToEncode) {
 			Instance instance = new DenseInstance(alphabetMap.size());
+			// initialize alphabet map with 0
+			for(int j = 0; j < alphabetMap.size(); j++){
+				instance.setValue(j, new Double(0));
+			}
 			for (XEvent event : trace) {
 				String eventLabel = XConceptExtension.instance().extractName(
 						event);
@@ -272,6 +278,10 @@ public class FrequencyBasedEncoder extends Encoder {
 	public Instance encodeTrace(XTrace trace,
 			Map<String, Integer> alphabetMap) {
 		Instance instance = new DenseInstance(alphabetMap.size());
+		// initialize alphabet map with 0
+		for(int j = 0; j < alphabetMap.size(); j++){
+			instance.setValue(j, new Double(0));
+		}
 		for (XEvent event : trace) {
 			String eventLabel = XConceptExtension.instance().extractName(event);
 			Integer index = alphabetMap.get(eventLabel);

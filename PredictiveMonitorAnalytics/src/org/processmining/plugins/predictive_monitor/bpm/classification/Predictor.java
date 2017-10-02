@@ -239,7 +239,7 @@ public class Predictor {
 				for (int i = 0; i < d.length; i++) {
 					double e = d[i];
 					print.thatln(i+" "+e);
-					if (d[i]>d[maxIndex])
+					if (d[i]>d[maxIndex]) 
 						maxIndex=i;
 				}
 				ResultRandomForest result = null;
