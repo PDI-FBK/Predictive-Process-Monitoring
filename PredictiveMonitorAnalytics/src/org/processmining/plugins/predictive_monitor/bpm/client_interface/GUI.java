@@ -15,11 +15,16 @@ import org.processmining.plugins.predictive_monitor.bpm.replayer.ConfigurationSe
 import org.processmining.plugins.predictive_monitor.bpm.replayer.GlobalResultListener;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  *
@@ -32,9 +37,34 @@ public class GUI extends Application {
 	public static GlobalResultListener globalResultListener;
 	public static Set<String> runIDKeySet;
 	public static Map <String, Map<String, Object>> unfoldedValues;
+	
+	 public static final CountDownLatch latch = new CountDownLatch(1);
+	 public static GUI gui = null;
+
+	    public static GUI waitForStartUpTest() {
+	        try {
+	            latch.await();
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	        return gui;
+	    }
+
+	    public static void setStartUpGUI(GUI startUpTest0) {
+	        gui = startUpTest0;
+	        latch.countDown();
+	    }
+
+	    public GUI() {
+	        setStartUpGUI(this);
+	    }
+
+	    public void printSomething() {
+	        System.out.println("Starting GUI");
+	    }
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(final Stage stage) throws Exception {
     	
     	trainingFilePath = new TreeSet<String>();
     	
@@ -50,7 +80,12 @@ public class GUI extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("mockup1.jpg")));
         stage.setTitle("Predictive Monitoring");
         /*Should kill application on stage close*/
-        stage.setOnCloseRequest(e -> System.exit(0));
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent e) {
+				Platform.exit();
+			}
+		});
         
         stage.show();
     }
