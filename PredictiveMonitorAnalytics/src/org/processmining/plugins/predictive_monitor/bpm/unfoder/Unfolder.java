@@ -325,7 +325,7 @@ public class Unfolder {
  		for(String key: GUI.unfoldedValues.keySet())
  		{
  			
- 			toRemove.put(key, new ArrayList<>());
+ 			toRemove.put(key, new ArrayList<String>());
  			for(String parameter : GUI.unfoldedValues.get(key).keySet())
  			{
  				if(!Dependencies.isDependencySatisfied(parameter, GUI.unfoldedValues.get(key))){

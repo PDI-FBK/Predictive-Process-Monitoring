@@ -73,7 +73,7 @@ public class GUI extends Application {
         
         loader.setClassLoader(this.getClass().getClassLoader());
         
-        Parent parent = loader.load();
+        Parent parent = (Parent) loader.load();
         
         Scene scene = new Scene(parent);
         stage.setScene(scene);

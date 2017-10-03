@@ -98,7 +98,7 @@ public class TestingMain {
 		int k=0;
 		Set<String> runIds = new HashSet<>();
 		Map<String,Map<String,Object>> configurations = new HashMap<>();
-		Map<String,PrintWriter> pw = new HashMap<>();
+		final Map<String,PrintWriter> pw = new HashMap<>();
 		
 		
 		Map<String,PredictionType> predictionTypes = new HashMap<>();
@@ -197,10 +197,10 @@ public class TestingMain {
 		
 		
 		
-		GlobalResultListener globalResultListener = new GlobalResultListener(runIds,true);
+		final GlobalResultListener globalResultListener = new GlobalResultListener(runIds,true);
 		ConfigurationSender configurationSender = new ConfigurationSender();
 		
-		for(String id : runIds)
+		for(final String id : runIds)
 		{
 			globalResultListener.getResultListener(id).getResults().addListener(new ListChangeListener<GenericResult>() {
 			
