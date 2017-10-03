@@ -75,17 +75,17 @@ public class ReportController<S> implements Initializable {
 		//((Node)(e.getSource())).getScene().getWindow().setOnCloseRequest(e1 -> System.exit(0));
     	    	
     	//Tab clustering = new Tab("Clustering", new Text("clusteringType = DBSCAN \nhierarchicalDistanceMetrics = EDIT_DISTANCE	\nagglomerativeFeatureType = WHOLETRACE	\nmodelClusteringFrom = EXTERNAL_INPUT_FILE	\nclusterNumber = 15	\nDBscanEpsilon = 0.1	\nDBScanMinPoints = 8	\nmaxSizeTraceThreshold = 100"));
-    	Tab clustering = new Tab("Clustering");
-    	Tab classification = new Tab("Classification");
+    	final Tab clustering = new Tab("Clustering");
+    	final Tab classification = new Tab("Classification");
     			//	\nrFMaxDepth = 0 \nrFNumFeatures = 0	\nrFNumTrees = 10	\nrFSeed = 1;"));
     	//Tab discriminativePatternMining = new Tab("Discriminative Pattern Mining");
     	//\nvoters = 	\nconfidenceAndSupportVotingStrategy = MAX"));
     	//Tab predictionType = new Tab("Prediction Type", new Text("predictionType = ACTIVATION_VERIFICATION_FORMULA_TIME"));
-    	Tab trainingTraces = new Tab("Training Traces");
+    	final Tab trainingTraces = new Tab("Training Traces");
     	//Tab logOption = new Tab("Log Option");
-    	Tab predictionTypeTab = new Tab("Prediction Type");
+    	final Tab predictionTypeTab = new Tab("Prediction Type");
     	//Tab patternMining = new Tab("Pattern Mining");
-    	Tab evaluation = new Tab("Evaluation");
+    	final Tab evaluation = new Tab("Evaluation");
 
         configPane.getTabs().add(clustering);
         configPane.getTabs().add(classification);
@@ -103,7 +103,7 @@ public class ReportController<S> implements Initializable {
         
 		summaryColumns = new ArrayList();
         runsSummary.setContent(summarytableView);
-		ObservableList<RunsSummaryValues> summaryResultTable = FXCollections.observableArrayList();
+		final ObservableList<RunsSummaryValues> summaryResultTable = FXCollections.observableArrayList();
 		summarytableView.setItems(summaryResultTable);
 		
     	TableColumn<RunsSummaryValues, String> runIdResult = new TableColumn<RunsSummaryValues, String>();
@@ -309,7 +309,7 @@ public class ReportController<S> implements Initializable {
     	
        	Map<String,PrintWriter> pw = new HashMap<>();
     	
-    	for(String runId :  unfoldedValues.keySet()){
+    	for(final String runId :  unfoldedValues.keySet()){
     		/*
     		System.out.println("-- START PARAMETERS --");
     		System.out.println("Currently analizing: " + runId);
@@ -320,7 +320,7 @@ public class ReportController<S> implements Initializable {
     		System.out.println("## END OF SENT CONFIGURATION ##");
     		System.out.println("-- END PARAMETERS --");
     		*/    		
-    		Tab tab = new Tab(runId);
+    		final Tab tab = new Tab(runId);
     		
             resultsTabPane.getTabs().add(tab);
             
@@ -541,23 +541,25 @@ public class ReportController<S> implements Initializable {
 				pw.get(runId).println("\""+key+"\",\""+ unfoldedValues.get(key)+"\",");
 			}
 			pw.get(runId).flush();
-			ProgressBar progressBar = new ProgressBar();
+			final ProgressBar progressBar = new ProgressBar();
 			progressBar.setMaxWidth(Double.MAX_VALUE);
 			
 			
-			TableView<GenericResult> tableView = new TableView<GenericResult>();
+			final TableView<GenericResult> tableView = new TableView<GenericResult>();
 			tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 				//myTable = tableView;
 				
 				
-				VBox vb = new VBox(tableView, progressBar);
+				VBox vb = new VBox();
+				vb.getChildren().add(tableView);
+				vb.getChildren().add(progressBar);
 	    		tab.setContent(vb);
 					
 
-				ObservableList<GenericResult> resultTable = FXCollections.observableArrayList();
+				final ObservableList<GenericResult> resultTable = FXCollections.observableArrayList();
 				tableView.setItems(resultTable);
 				
-				MyBoolean firstTuple = new MyBoolean(true);
+				final MyBoolean firstTuple = new MyBoolean(true);
 	            
 		    	globalResultListener.getResultListener(runId).getResults().addListener(new ListChangeListener<GenericResult>() {
 		
@@ -580,7 +582,7 @@ public class ReportController<S> implements Initializable {
 							
 
 							
-							for(String i : headers){
+							for(final String i : headers){
 								
 								if(!(i.equals("Expectation") || i.equals("Result")) || !((Boolean)unfoldedValues.get(unfoldedValues.keySet().iterator().next()).get("evaluationRun")))
 									Platform.runLater(new Runnable() {
@@ -611,7 +613,7 @@ public class ReportController<S> implements Initializable {
 
 				@Override
 				public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-					Double progress = (Double)(arg0.getValue().doubleValue());
+					final Double progress = (Double)(arg0.getValue().doubleValue());
 					Platform.runLater(new Runnable() {
 						
 						@Override

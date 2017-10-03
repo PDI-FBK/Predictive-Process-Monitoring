@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ServerConnectionGUIController implements Initializable {
 	@FXML
@@ -102,7 +103,15 @@ public class ServerConnectionGUIController implements Initializable {
 		                settingsStage.show();
 		                
 		                ((Node)(e.getSource())).getScene().getWindow().hide();
-		                ((Node)(e.getSource())).getScene().getWindow().setOnCloseRequest(e1 -> System.exit(0));
+		                ((Node)(e.getSource())).getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+							/* (non-Javadoc)
+							 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+							 */
+							@Override
+							public void handle(WindowEvent e1) {
+								System.exit(0);
+							}
+						});
 		        	}else{
 		        		System.out.println("Please check server status");
 		        	}

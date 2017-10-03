@@ -11,7 +11,7 @@ public class ReportTableTuple {
 
     private Button removeAction;
 
-    public ReportTableTuple(Object selectedValue, Parameter i) {
+    public ReportTableTuple(Object selectedValue, final Parameter i) {
     	value = selectedValue;
     	removeAction = new Button("Remove");
     	removeAction.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {

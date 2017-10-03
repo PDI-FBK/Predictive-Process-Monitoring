@@ -16,7 +16,10 @@ public class CurrentlyAdded extends HBox {
 	//sould i get the reference of the value added?
 	//fix design =)
 	public CurrentlyAdded(String type, String value){
-		super(new Label (type), new Label(value), remove);
+		super();
+		getChildren().add(new Label (type));
+		getChildren().add(new Label(value));
+		getChildren().add(remove);
 		System.out.println("Adding values");
 		this.setPadding(new Insets(5));
 	}

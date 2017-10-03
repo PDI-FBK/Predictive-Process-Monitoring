@@ -1,23 +1,16 @@
 package org.processmining.plugins.predictive_monitor.bpm.server.data;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
 import org.processmining.plugins.declareminer.Watch;
-import org.processmining.plugins.predictive_monitor.bpm.PredictiveMonitor;
-//import org.processmining.plugins.predictive_monitor.bpm.server.DataStructureSerializer;
-import org.processmining.plugins.predictive_monitor.bpm.trace_labeling.data_structures.SimpleFormula;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import com.thoughtworks.xstream.XStream;
-import com.sun.webkit.Utilities;
+//import com.sun.webkit.Utilities;
 
 public abstract class GenericDataStructure {
 	protected Map<String,Object> configuration;
