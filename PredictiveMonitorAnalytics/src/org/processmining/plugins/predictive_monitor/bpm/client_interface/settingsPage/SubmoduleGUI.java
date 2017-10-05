@@ -26,8 +26,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -44,8 +43,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ltl2aut.formula.DefaultParser;
 
@@ -117,7 +118,7 @@ public class SubmoduleGUI extends GridPane {
 	private TableView<ReportTableTuple> createTable()
 	{
 		TableView<ReportTableTuple> tableView = new TableView<ReportTableTuple>();
-		tableView.setFixedCellSize(25);
+//		tableView.setFixedCellSize(25);
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		return tableView;
 	}
@@ -132,7 +133,8 @@ public class SubmoduleGUI extends GridPane {
         if(!selectedSection.equals("Training") && !selectedSection.equals("Execution")){
         	Label title = new Label(selectedSection);
         	title.setFont(new Font(18));
-        	title.setPadding(new Insets(10));
+//        	title.setPadding(new Insets(10));
+        	title.setStyle("-fx-padding:5");
         	
         	settingsTable.setAlignment(Pos.TOP_LEFT);
         	
@@ -291,8 +293,8 @@ public class SubmoduleGUI extends GridPane {
 		
 		module.add(topBar(iLabel,null,selectionType,add), 0, 0);
 		
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		
@@ -331,12 +333,14 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
 		module.add(tableView, 0, 1);
-		module.add(new HBox(remove), 0, 2);
+		HBox hb = new HBox();
+		hb.getChildren().add(remove);
+		module.add(hb, 0, 2);
 		
 		for(Object j : i.getSelectedValues()){
 			resultTable.add(new ReportTableTuple(j, i));
@@ -347,7 +351,7 @@ public class SubmoduleGUI extends GridPane {
 		
 	}
 	
-	public SubmoduleGUI(final Discrete_Values i, final List <Parameter> paramMap, final VBox settingsTable, String selectedSection, Map<String, Module> selections) {
+	public SubmoduleGUI(final Discrete_Values i, final List <Parameter> paramMap, final VBox settingsTable, final String selectedSection, final Map<String, Module> selections) {
 		module = this;
 
 		setStyle();
@@ -367,8 +371,8 @@ public class SubmoduleGUI extends GridPane {
 		module.add(topBar(iLabel, null, selectionType, add),0,0);
 		Button remove = new Button("Remove");
 		
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -409,12 +413,14 @@ public class SubmoduleGUI extends GridPane {
             };
         });
        
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
 		module.add(tableView, 0, 1);
-		module.add(new HBox(remove), 0, 2);
+		HBox hb = new HBox();
+		hb.getChildren().add(remove);
+		module.add(hb, 0, 2);
 		
 		for ( Object j : i.getSelectedValues()){
 			resultTable.add(new ReportTableTuple(j, i));
@@ -443,14 +449,14 @@ public class SubmoduleGUI extends GridPane {
 		final ComboBox<inputType> selectionType = new ComboBox<inputType>();
 		selectionType.getItems().setAll(inputType.values());
 		
-		selectionType.setPadding(new Insets(5, 5, 5, 5));
+		selectionType.setStyle("-fx-padding:5;");
 		selectionType.setPrefWidth(REMAINING);
 		
 		Button add = new Button("Add");
 		Button remove = new Button("Remove");
 		
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -535,7 +541,7 @@ public class SubmoduleGUI extends GridPane {
 		
 		module.add(topBar(iLabel,selectionType, input, add), 0, 0);
 		
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -559,26 +565,26 @@ public class SubmoduleGUI extends GridPane {
 								input.setPadding(new Insets(5, 5, 5, 5));
 								
 								Label fromLabel = new Label("From: ");
-								fromLabel.setPadding(new Insets(5, 5, 5, 5));
+								fromLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(fromLabel);
 								from = new TextField();
-								from.setPadding(new Insets(5, 5, 5, 5));
+								from.setStyle("-fx-padding:5;");
 								input.getChildren().add(from);
 	
 								Label toLabel = new Label("To:");
 								toLabel.setMinWidth(USE_PREF_SIZE);
-								toLabel.setPadding(new Insets(5, 5, 5, 5));
+								toLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(toLabel);
 								to = new TextField();
-								to.setPadding(new Insets(5, 5, 5, 5));
+								to.setStyle("-fx-padding:5;");
 								input.getChildren().add(to);
 	
 								Label gapLabel = new Label("Gap:");
 								gapLabel.setMinWidth(USE_PREF_SIZE);
-								gapLabel.setPadding(new Insets(5, 5, 5, 5));
+								gapLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(gapLabel);
 								gap = new TextField();
-								gap.setPadding(new Insets(5, 5, 5, 5));
+								gap.setStyle("-fx-padding:5;");
 								input.getChildren().add(gap);
 								break;
 							case"SINGLE_VALUE":
@@ -587,10 +593,10 @@ public class SubmoduleGUI extends GridPane {
 								
 								Label valueLabel = new Label("Value: ");
 								valueLabel.setMinWidth(USE_PREF_SIZE);
-								valueLabel.setPadding(new Insets(5, 5, 5, 5));
+								valueLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(valueLabel);
 								value = new TextField();
-								value.setPadding(new Insets(5, 5, 5, 5));
+								value.setStyle("-fx-padding:5;");
 								input.getChildren().add(value);
 								break;
 							default:
@@ -615,14 +621,14 @@ public class SubmoduleGUI extends GridPane {
 		
 		final ComboBox<inputType> selectionType = new ComboBox<inputType>();
 		selectionType.getItems().setAll(inputType.values());
-		selectionType.setPadding(new Insets(5, 5, 5, 5));
+		selectionType.setStyle("-fx-padding:5;");
 		selectionType.setPrefWidth(REMAINING);
 		
 		Button add = new Button("Add");
 		Button remove = new Button("Remove");
 		
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -702,7 +708,7 @@ public class SubmoduleGUI extends GridPane {
 		module.add(topBar(iLabel, selectionType, input, add), 0, 0);
 		
 		
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -727,26 +733,26 @@ public class SubmoduleGUI extends GridPane {
 								input.setPadding(new Insets(5, 5, 5, 5));
 								
 								Label fromLabel = new Label("From: ");
-								fromLabel.setPadding(new Insets(5, 5, 5, 5));
+								fromLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(fromLabel);
 								from = new TextField();
-								from.setPadding(new Insets(5, 5, 5, 5));
+								from.setStyle("-fx-padding:5;");
 								input.getChildren().add(from);
 	
 								Label toLabel = new Label("To:");
 								toLabel.setMinWidth(USE_PREF_SIZE);
-								toLabel.setPadding(new Insets(5, 5, 5, 5));
+								toLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(toLabel);
 								to = new TextField();
-								to.setPadding(new Insets(5, 5, 5, 5));
+								to.setStyle("-fx-padding:5;");
 								input.getChildren().add(to);
 	
 								Label gapLabel = new Label("Gap:");
 								gapLabel.setMinWidth(USE_PREF_SIZE);
-								gapLabel.setPadding(new Insets(5, 5, 5, 5));
+								gapLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(gapLabel);
 								gap = new TextField();
-								gap.setPadding(new Insets(5, 5, 5, 5));
+								gap.setStyle("-fx-padding:5;");
 								input.getChildren().add(gap);
 								break;
 							case"SINGLE_VALUE":
@@ -755,10 +761,10 @@ public class SubmoduleGUI extends GridPane {
 								
 								Label valueLabel = new Label("Value: ");
 								valueLabel.setMinWidth(USE_PREF_SIZE);
-								valueLabel.setPadding(new Insets(5, 5, 5, 5));
+								valueLabel.setStyle("-fx-padding:5;");
 								input.getChildren().add(valueLabel);
 								value = new TextField();
-								value.setPadding(new Insets(5, 5, 5, 5));
+								value.setStyle("-fx-padding:5;");
 								input.getChildren().add(value);
 								break;
 							default:
@@ -772,7 +778,7 @@ public class SubmoduleGUI extends GridPane {
 			selectionType.setValue(inputType.SINGLE_VALUE);
 	}
 	
-	public SubmoduleGUI(final Boolean_Values i, final List <Parameter> paramMap, final VBox settingsTable, String selectedSection, Map<String, Module> selections) {
+	public SubmoduleGUI(final Boolean_Values i, final List <Parameter> paramMap, final VBox settingsTable, final String selectedSection, final Map<String, Module> selections) {
 		module = this;
 
 		setStyle();
@@ -828,8 +834,8 @@ public class SubmoduleGUI extends GridPane {
 			box.add(add,1,0);
 			Button remove = new Button("Remove");
 			
-			TableView<ReportTableTuple> tableView = createTable();
-			ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+			final TableView<ReportTableTuple> tableView = createTable();
+			final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 			tableView.setItems(resultTable);
 			
 			TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -876,7 +882,7 @@ public class SubmoduleGUI extends GridPane {
 	    	        if(!selectedSection.equals("Training") && !selectedSection.equals("Execution")){
 	    	        	Label title = new Label(selectedSection);
 	    	        	title.setFont(new Font(18));
-	    	        	title.setPadding(new Insets(10));
+	    	        	title.setStyle("-fx-padding:10;");
 	    	        	
 	    	        	settingsTable.setAlignment(Pos.TOP_LEFT);
 	    	        	
@@ -1003,7 +1009,7 @@ public class SubmoduleGUI extends GridPane {
 	            };
 	        });
 			
-			tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//			tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 			tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 			tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 			
@@ -1051,8 +1057,8 @@ public class SubmoduleGUI extends GridPane {
 		module.add(box, 0,0);
 		Button remove = new Button("Remove");
 
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -1079,11 +1085,34 @@ public class SubmoduleGUI extends GridPane {
             		System.out.println(i.getValues());
             	}catch (Exception ex)
             	{
-            		Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Invalid Formula");
-                    alert.setHeaderText("Invalid Formula");
-                    alert.setContentText("You Inserted a invalid LTL Formula");
-                    alert.showAndWait();
+//            		Alert alert = new Alert(AlertType.ERROR);
+//                    alert.setTitle("Invalid Formula");
+//                    alert.setHeaderText("Invalid Formula");
+//                    alert.setContentText("You Inserted a invalid LTL Formula");
+//                    alert.showAndWait();
+                    
+                    final Stage dialogStage = new Stage();
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+
+                    VBox vbox = new VBox();
+                    vbox.getChildren().add(new Text("Invalid Formula"));
+                    vbox.getChildren().add(new Text("You Inserted a invalid LTL Formula"));
+                    Button btn = new Button("Ok");
+                    btn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
+
+						@Override
+						public void handle(MouseEvent event) {
+							// TODO Auto-generated method stub
+							dialogStage.close();
+						}
+            	
+            		});
+					vbox.getChildren().add(btn);
+                    vbox.setAlignment(Pos.CENTER);
+                    vbox.setPadding(new Insets(15));
+
+                    dialogStage.setScene(new Scene(vbox));
+                    dialogStage.show();
             	}
             };
         });
@@ -1106,7 +1135,7 @@ public class SubmoduleGUI extends GridPane {
         });
 		
 
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -1139,8 +1168,8 @@ public class SubmoduleGUI extends GridPane {
 		
 		Button remove = new Button("Remove");
 
-		TableView<ReportTableTuple> tableView = createTable();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = createTable();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -1188,7 +1217,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -1217,8 +1246,8 @@ public class SubmoduleGUI extends GridPane {
 		
 		Button remove = new Button("Remove");
 
-		TableView<ReportTableTuple> tableView = new TableView<ReportTableTuple>();
-		ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
+		final TableView<ReportTableTuple> tableView = new TableView<ReportTableTuple>();
+		final ObservableList<ReportTableTuple> resultTable = FXCollections.observableArrayList();
 		tableView.setItems(resultTable);
 		
 		TableColumn<ReportTableTuple, ?> valueCol = new TableColumn<ReportTableTuple, String>("Value");
@@ -1261,7 +1290,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
