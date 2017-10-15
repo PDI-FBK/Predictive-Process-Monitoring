@@ -38,7 +38,8 @@
             <Label text="IP" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font size="16.0" />
-               </font></Label>
+               </font>
+               </Label>
             <Label text="Port Number" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font size="16.0" />

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.processmining.plugins.predictive_monitor.bpm.client_interface.GUI;
@@ -45,6 +46,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
@@ -136,163 +138,99 @@ import javafx.stage.Stage;
 	            	currentConfiguration.setLogOption(selections.get("Log Option"));
 	            	currentConfiguration.setPredictionType(selections.get("Prediction Type"));
 	            	currentConfiguration.setEvaluation(selections.get("Evaluation"));
+currentConfiguration.setEvaluation(selections.get("Evaluation"));
 	            	
-	            	final Stage dialogStage = new Stage();
-                    dialogStage.initModality(Modality.WINDOW_MODAL);
+	            	TextInputDialog dialog = new TextInputDialog("newRunID"+(RunNumber == 0 ? "" : RunNumber));
+	            	RunNumber++;
+	            	dialog.setTitle("Text Input Dialog");
+	            	dialog.setHeaderText("Tell me a name for the new run");
+	            	dialog.setContentText("Enter here the name of the new run:");
 
-                    VBox vbox = new VBox();
-                    vbox.getChildren().add(new Text("newRunID"+(RunNumber == 0 ? "" : RunNumber)));
-                    RunNumber++;
-                    vbox.getChildren().add(new Text("Text Input Dialog"));
-                    vbox.getChildren().add(new Text("Tell me a name for the new run"));
-                    vbox.getChildren().add(new Text("Enter here the name of the new run:"));
-                    final TextField tInput = new TextField();
-                    vbox.getChildren().add(tInput);
-                    Button btn = new Button("Ok");
-                    btn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
-
-						@Override
-						public void handle(MouseEvent event) {
-							// TODO Auto-generated method stub
-							String runId = tInput.getText();
-							if (runId != null){
-			            	   final String rId = runId;
-			            	    new Thread(new Runnable() {
-			                        @Override
-			                        public void run() {
-			                            Platform.runLater(new Runnable() {
-			                                @Override
-			                                public void run() {
-			                                   //UI Stuff
-			                                	Unfolder unfolder = new Unfolder(currentConfiguration, rId, GUI.configurationSender);
-			                                	
-			                                	unfolder.unfoldAndSendConf();
-			                                	Stage settingsStage = new Stage();	        		
-			                                	
-			                                	final FXMLLoader loader = new FXMLLoader();
-			                                	loader.setLocation(this.getClass().getResource("../resultPage/Report.fxml"));
-			                                	
-			                                	loader.setClassLoader(this.getClass().getClassLoader());
-			                                	
-			                                	Parent parent = null;
-			                                	try {
-			                                		parent = (Parent) loader.load();
-			                                	} catch (IOException e2) {
-			                                		e2.printStackTrace();
-			                                	}
-			                                	
-			                                	Scene scene = new Scene(parent);
-			                                	settingsStage.setScene(scene);
-			                                	settingsStage.getIcons().add(new Image(getClass().getResourceAsStream("../mockup1.jpg")));
-			                                	settingsStage.setTitle("Predictive Monitoring");
-			                                	
-			                                	settingsStage.show();
-			                                	
-			                                }
-			                            });
-			                        }
-			                    }).start();
-			            	    
-//				            	TextInputDialog dialog = new TextInputDialog("newRunID"+(RunNumber == 0 ? "" : RunNumber));
-//				            	RunNumber++;
-//				            	dialog.setTitle("Text Input Dialog");
-//				            	dialog.setHeaderText("Tell me a name for the new run");
-//				            	dialog.setContentText("Enter here the name of the new run:");
-			//
-//				            	String runId = null; 
-//				            	Optional<String> result = dialog.showAndWait();
-//				            	if (result.isPresent() && result != null){
-//				            	    runId = result.get();
-//				            	   final String rId = runId;
-//				            	    new Thread(new Runnable() {
-//				                        @Override
-//				                        public void run() {
-//				                            Platform.runLater(new Runnable() {
-//				                                @Override
-//				                                public void run() {
-//				                                   //UI Stuff
-//				                                	Unfolder unfolder = new Unfolder(currentConfiguration, rId, GUI.configurationSender);
-//				                                	
-//				                                	unfolder.unfoldAndSendConf();
-//				                                	Stage settingsStage = new Stage();	        		
-//				                                	
-//				                                	final FXMLLoader loader = new FXMLLoader();
-//				                                	loader.setLocation(this.getClass().getResource("../resultPage/Report.fxml"));
-//				                                	
-//				                                	loader.setClassLoader(this.getClass().getClassLoader());
-//				                                	
-//				                                	Parent parent = null;
-//				                                	try {
-//				                                		parent = loader.load();
-//				                                	} catch (IOException e2) {
-//				                                		e2.printStackTrace();
-//				                                	}
-//				                                	
-//				                                	Scene scene = new Scene(parent);
-//				                                	settingsStage.setScene(scene);
-//				                                	settingsStage.getIcons().add(new Image(getClass().getResourceAsStream("../mockup1.jpg")));
-//				                                	settingsStage.setTitle("Predictive Monitoring");
-//				                                	
-//				                                	settingsStage.show();
-//				                                	
-//				                                }
-//				                            });
-//				                        }
-//				                    }).start();
-					                //This closes the settings window
-					                //((Node)(e1.getSource())).getScene().getWindow().hide();
+	            	String runId = null; 
+	            	Optional<String> result = dialog.showAndWait();
+	            	if (result.isPresent() && result != null){
+	            	    runId = result.get();
+	            	   final String rId = runId;
+	            	    new Thread(new Runnable() {
+	                        @Override
+	                        public void run() {
+	                            Platform.runLater(new Runnable() {
+	                                @Override
+	                                public void run() {
+	                                   //UI Stuff
+	                                	Unfolder unfolder = new Unfolder(currentConfiguration, rId, GUI.configurationSender);
+	                                	
+	                                	unfolder.unfoldAndSendConf();
+	                                	Stage settingsStage = new Stage();	        		
+	                                	
+	                                	final FXMLLoader loader = new FXMLLoader();
+	                                	loader.setLocation(this.getClass().getResource("../resultPage/Report.fxml"));
+	                                	
+	                                	loader.setClassLoader(this.getClass().getClassLoader());
+	                                	
+	                                	Parent parent = null;
+	                                	try {
+	                                		parent = loader.load();
+	                                	} catch (IOException e2) {
+	                                		e2.printStackTrace();
+	                                	}
+	                                	
+	                                	Scene scene = new Scene(parent);
+	                                	settingsStage.setScene(scene);
+	                                	settingsStage.getIcons().add(new Image(getClass().getResourceAsStream("../mockup1.jpg")));
+	                                	settingsStage.setTitle("Predictive Monitoring");
+	                                	
+	                                	settingsStage.show();
+	                                	
+	                                }
+	                            });
+	                        }
+	                    }).start();
+		                //This closes the settings window
+		                //((Node)(e1.getSource())).getScene().getWindow().hide();
 		                
-				                TrainingFile t = null;
-				                GUI.configurationSender = new ConfigurationSender();
-				                for(Parameter p:selections.get("Training Traces").getParameterList())
-				                {
-				                	if(p instanceof TrainingFile)
-				                	{
-				                		t = (TrainingFile)p;
-				                	}
-				                }
-				                //This should reset the settings
-				                selections = new HashMap<String, Module>();
-				                selections.put("Classification", new Classification());
-				            	selections.put("Clustering", new Clustering());
-				            	selections.put("Training Traces", new TrainingTracesModule(t));
-				            	selections.put("Log Option", new LogOption());
-				            	selections.put("Prediction Type", new PredictionTypeModule());
-				            	selections.put("Evaluation", new Evaluation());
-				            	/*
-				            	//this refreshes the view
-				            	settingsTable.getChildren().clear();
-				            	
-				            	settingsTable.setAlignment(Pos.CENTER);
-					        	settingsTable.setSpacing(5);
-					        	Label l1 = new Label("Welcome to Predictive Monitoring");
-					        	l1.setFont(Font.font("Helvetica", FontWeight.NORMAL, 24));
-					        	settingsTable.getChildren().add(l1);
-					        	
-					        	Label l2 = new Label("You can now choose in the left panel witch parameters to set. ");
-					        	l2.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
-					        	settingsTable.getChildren().add(l2);
-					        	
-					        	Label l3 = new Label("All provided parameters can be customized between a set of possible values. ");
-					        	l3.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
-					        	settingsTable.getChildren().add(l3);
-					        	
-					        	Label l4 = new Label("To change a value just select it from the provided box and click the  \"Add\" button, if you don't the default value will be used.");
-					        	l4.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
-					        	settingsTable.getChildren().add(l4);
-					        	*/
-					        	treeView.getSelectionModel().clearAndSelect(0);
-							}
-			            	
-	                    }
-                    });
-					vbox.getChildren().add(btn);
-                    vbox.setAlignment(Pos.CENTER);
-                    vbox.setPadding(new Insets(15));
-
-                    dialogStage.setScene(new Scene(vbox));
-                    dialogStage.show();
-	            }
+		                TrainingFile t = null;
+		                GUI.configurationSender = new ConfigurationSender();
+		                for(Parameter p:selections.get("Training Traces").getParameterList())
+		                {
+		                	if(p instanceof TrainingFile)
+		                	{
+		                		t = (TrainingFile)p;
+		                	}
+		                }
+		                //This should reset the settings
+		                selections = new HashMap<String, Module>();
+		                selections.put("Classification", new Classification());
+		            	selections.put("Clustering", new Clustering());
+		            	selections.put("Training Traces", new TrainingTracesModule(t));
+		            	selections.put("Log Option", new LogOption());
+		            	selections.put("Prediction Type", new PredictionTypeModule());
+		            	selections.put("Evaluation", new Evaluation());
+		            	/*
+		            	//this refreshes the view
+		            	settingsTable.getChildren().clear();
+		            	
+		            	settingsTable.setAlignment(Pos.CENTER);
+			        	settingsTable.setSpacing(5);
+			        	Label l1 = new Label("Welcome to Predictive Monitoring");
+			        	l1.setFont(Font.font("Helvetica", FontWeight.NORMAL, 24));
+			        	settingsTable.getChildren().add(l1);
+			        	
+			        	Label l2 = new Label("You can now choose in the left panel witch parameters to set. ");
+			        	l2.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
+			        	settingsTable.getChildren().add(l2);
+			        	
+			        	Label l3 = new Label("All provided parameters can be customized between a set of possible values. ");
+			        	l3.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
+			        	settingsTable.getChildren().add(l3);
+			        	
+			        	Label l4 = new Label("To change a value just select it from the provided box and click the  \"Add\" button, if you don't the default value will be used.");
+			        	l4.setFont(Font.font("Helvetica", FontWeight.NORMAL, 14));
+			        	settingsTable.getChildren().add(l4);
+			        	*/
+			        	treeView.getSelectionModel().clearAndSelect(0);
+	            	}
+	            };
 	        });
         }
 

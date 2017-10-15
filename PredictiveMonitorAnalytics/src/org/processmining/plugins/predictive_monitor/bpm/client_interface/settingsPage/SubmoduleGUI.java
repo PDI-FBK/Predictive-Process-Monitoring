@@ -118,7 +118,7 @@ public class SubmoduleGUI extends GridPane {
 	private TableView<ReportTableTuple> createTable()
 	{
 		TableView<ReportTableTuple> tableView = new TableView<ReportTableTuple>();
-//		tableView.setFixedCellSize(25);
+		tableView.setFixedCellSize(25);
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		return tableView;
 	}
@@ -333,7 +333,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -413,7 +413,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
        
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -541,7 +541,7 @@ public class SubmoduleGUI extends GridPane {
 		
 		module.add(topBar(iLabel,selectionType, input, add), 0, 0);
 		
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -708,7 +708,7 @@ public class SubmoduleGUI extends GridPane {
 		module.add(topBar(iLabel, selectionType, input, add), 0, 0);
 		
 		
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -1135,7 +1135,7 @@ public class SubmoduleGUI extends GridPane {
         });
 		
 
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -1217,7 +1217,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
@@ -1290,7 +1290,7 @@ public class SubmoduleGUI extends GridPane {
             };
         });
 		
-//		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+		tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 		tableView.minHeightProperty().bind(tableView.prefHeightProperty());
 		tableView.maxHeightProperty().bind(tableView.prefHeightProperty());
 		
