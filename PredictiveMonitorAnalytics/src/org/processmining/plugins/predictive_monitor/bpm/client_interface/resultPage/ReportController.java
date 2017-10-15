@@ -55,10 +55,11 @@ public class ReportController<S> implements Initializable {
 	
 	List<String> summaryColumns;
 	TableView<RunsSummaryValues> summarytableView;
-	Map<String,ObservableList<ConfigurationPair>> configurationContent;
+	Map<String,Map<String,ObservableList<ConfigurationPair>>> configurationContent = new HashMap<>();
 	
 	Map<String,Map<String,Object>> unfoldedValues;
 	GlobalResultListener globalResultListener;
+	javafx.event.EventHandler<Event> eventHandler;
 	
 	
 	
@@ -95,7 +96,7 @@ public class ReportController<S> implements Initializable {
         //configPane.getTabs().add(logOption);
         configPane.getTabs().add(predictionTypeTab);
         //configPane.getTabs().add(patternMining);
-        configPane.getTabs().add (evaluation);
+        configPane.getTabs().add(evaluation);
     	
         summarytableView = new TableView<RunsSummaryValues>();
         summarytableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -324,7 +325,7 @@ public class ReportController<S> implements Initializable {
     		
             resultsTabPane.getTabs().add(tab);
             
-            javafx.event.EventHandler<Event> eventHandler = new javafx.event.EventHandler<Event>() {
+            eventHandler = new javafx.event.EventHandler<Event>() {
 
 				@Override
 				public void handle(Event event) {
@@ -361,7 +362,7 @@ public class ReportController<S> implements Initializable {
 			 			}
 					}
 			 		
-					configurationContent = new HashMap<>();
+					configurationContent.put(runId, new HashMap<>());
 					
 					TableView<ConfigurationPair> clusteringTableView = new TableView<ConfigurationPair>();
 					clusteringTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -397,7 +398,7 @@ public class ReportController<S> implements Initializable {
 			    	addData("voters", act, toRemove,clusteringData);
 
 			    	clusteringTableView.setItems(clusteringData);
-			    	configurationContent.put("Clustering",clusteringData);
+			    	configurationContent.get(runId).put("Clustering",clusteringData);
 			    	
 			    	TableView<ConfigurationPair> classificationTableView = new TableView<ConfigurationPair>();
 					classificationTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -426,7 +427,7 @@ public class ReportController<S> implements Initializable {
 			    	addData("rFSeed", act, toRemove,classificationData);
 			    	
 			    	classificationTableView.setItems(classificationData);
-			    	configurationContent.put("Classification",classificationData);
+			    	configurationContent.get(runId).put("Classification",classificationData);
 			    	
 			    	TableView<ConfigurationPair> inputOutpuTableView = new TableView<ConfigurationPair>();
 					inputOutpuTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -448,7 +449,7 @@ public class ReportController<S> implements Initializable {
 			    	addData("prefixGap", act, toRemove, trainingTracesData);
 			    	
 			    	inputOutpuTableView.setItems(trainingTracesData);
-			    	configurationContent.put("Training",trainingTracesData);
+			    	configurationContent.get(runId).put("Training",trainingTracesData);
 			    	
 			    	/*TableView<ConfigurationPair> logTableView = new TableView<ConfigurationPair>();
 					logOption.setContent(logTableView);
@@ -491,7 +492,7 @@ public class ReportController<S> implements Initializable {
 			    	addData("numberOfIntervals", act, toRemove, predictionTypeData);
 
 			    	formulaTableView.setItems(predictionTypeData);
-			    	configurationContent.put("PredictionType",predictionTypeData);
+			    	configurationContent.get(runId).put("PredictionType",predictionTypeData);
 			    	
 			    	TableView<ConfigurationPair> evaluationTableView = new TableView<ConfigurationPair>();
 					evaluationTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -515,7 +516,7 @@ public class ReportController<S> implements Initializable {
 			    	addData("evaluationStartPoint", act, toRemove, evaluationData);
 
 			    	evaluationTableView.setItems(evaluationData);
-			    	configurationContent.put("Evaluation",evaluationData);
+			    	configurationContent.get(runId).put("Evaluation",evaluationData);
 				}
 				
 				void addData(String name, Map<String,Object> data, List<String> ignore,ObservableList<ConfigurationPair> table)
@@ -534,6 +535,9 @@ public class ReportController<S> implements Initializable {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("Dear user we are sorry for the exception, "
+						+ "usually the point of failure that causes this exception is that "
+						+ "some folders in the path {current_folder}/output/newTestRuns/ does not exists!");
 			}
             
 			for(String key :  unfoldedValues.keySet())
@@ -704,6 +708,11 @@ public class ReportController<S> implements Initializable {
 	
 			@Override
 			public void handle(Event event) {
+				resultsTabPane.getSelectionModel().clearAndSelect(0);
+				runConfigs.refresh();
+				eventHandler.handle(null);
+//				resultsTabPane.getSelectionModel().;
+				
 				FileChooser fileChooser = new FileChooser();
 	              
 	              File file = fileChooser.showSaveDialog(new Stage ());
@@ -721,12 +730,14 @@ public class ReportController<S> implements Initializable {
 					    	  
 				    		  fileWriter = new FileWriter(new File(file + "/" + runId + ".csv"));
 				    		  String content = new String();
-				    		  
-				    		  for(String category : configurationContent.keySet()){
+				    		  for(String category : configurationContent.get(runId).keySet()){
 				    			  content += "\""+category+"\"\n";
-				    			  for(ConfigurationPair pair: configurationContent.get(category)){
+				    			  for(ConfigurationPair pair: configurationContent.get(runId).get(category)){
 					    			  content += ("\""+ pair.getType() +"\",");
-					    			  content += ("\""+ pair.getValue() +"\",");
+					    			  if (pair.getValue() instanceof HashMap)
+					    				  content += ("\""+ ((HashMap)pair.getValue()).get(runId) +"\",");
+					    			  else
+					    				  content += ("\""+ pair.getValue() +"\",");
 					    			  content += "\n";
 				    			  }
 				    			  content += "\n";
